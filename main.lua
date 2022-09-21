@@ -1,6 +1,7 @@
-local push = require 'push'
-Class = require 'class'
+local push = require 'utils/push'
+Class = require 'utils/class'
 
+require 'helpers'
 require 'constants'
 require 'Paddle'
 require 'Ball'
@@ -8,13 +9,6 @@ require 'Ball'
 local ball, player1, player2
 local gameState, player1Score, player2Score
 local smallFont, bigFont
-
--- function to show fps on top right of screen
-local function showFPS()
-    love.graphics.setFont(smallFont)
-    love.graphics.setColor(0, 1, 0, 1)
-    love.graphics.printf(tostring(love.timer.getFPS()).." fps", 0, 20, VIRTUAL_WIDTH-20, 'right')
-end
 
 function love.load()
     -- set default scaling filter 
@@ -90,7 +84,7 @@ function love.update(dt)
         player2.dy = 0 -- stop if no / different button pressed
     end
 
-    -- collision of ball with top and bottom screen => bounce back with same angle and speed
+    -- collision of ball with top and bottom screen => bounce back with same angle and no speed changes
     if ball.y <= 0 then
         ball.y = 0
         ball.dy = -ball.dy
@@ -110,22 +104,22 @@ function love.update(dt)
 
     -- handle collisions with players
     if ball:collides(player1) then
-        ball.dx = -ball.dx * 1.03 -- reverse and slightly increase
-        ball.x = player1.x + 5
-        -- randomise the y direction, but random
+        ball.dx = -ball.dx * BALL_SPEED_INC_X -- reverse and slightly increase
+        ball.x = player1.x + PADDLE_WIDTH
+        -- reverse the y direction, but random speed
         if ball.dy < 0 then
-            ball.dy = -math.random(10, 150)
+            ball.dy = -math.random(BALL_SPEED_HIT_MIN_Y, BALL_SPEED_HIT_MAX_Y)
         else
-            ball.dy = math.random(10, 150)
+            ball.dy = math.random(BALL_SPEED_HIT_MIN_Y, BALL_SPEED_HIT_MAX_Y)
         end
     elseif ball:collides(player2) then
-        ball.dx = -ball.dx * 1.03 -- reverse and slightly increase
-        ball.x = player2.x - 4
-        -- randomise the y direction, but random
+        ball.dx = -ball.dx * BALL_SPEED_INC_X -- reverse and slightly increase
+        ball.x = player2.x - PADDLE_WIDTH
+        -- reverse the y direction, but random speed
         if ball.dy < 0 then
-            ball.dy = -math.random(10, 150)
+            ball.dy = -math.random(BALL_SPEED_HIT_MIN_Y, BALL_SPEED_HIT_MAX_Y)
         else
-            ball.dy = math.random(10, 150)
+            ball.dy = math.random(BALL_SPEED_HIT_MIN_Y, BALL_SPEED_HIT_MAX_Y)
         end
     end
 
@@ -144,6 +138,9 @@ function love.draw()
     -- render top heading
     love.graphics.printf("PONG", 0, 20, VIRTUAL_WIDTH, 'center')
 
+    -- render dotted line in middle
+    DrawVerticalDottedLine(VIRTUAL_WIDTH/2, 0, VIRTUAL_HEIGHT, DOTTED_WIDTH, DOTTED_HEIGHT, DOTTED_INTERVAL)
+
     -- render score on screen
     love.graphics.setFont(bigFont)
     love.graphics.print(tostring(player1Score), VIRTUAL_WIDTH/2-50, VIRTUAL_HEIGHT/3)
@@ -155,7 +152,7 @@ function love.draw()
     ball:render()
 
     -- print fps
-    showFPS()
+    ShowFPS(smallFont)
 
     push:apply('end')
 end
