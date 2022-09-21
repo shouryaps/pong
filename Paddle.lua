@@ -1,4 +1,4 @@
-Paddle = Class{}
+Paddle = Class {}
 
 function Paddle:init(x, y, width, height)
     self.x = x
