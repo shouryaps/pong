@@ -104,7 +104,7 @@ function love.update(dt)
 
     -- handle collisions with players
     if ball:collides(player1) then
-        ball.dx = -ball.dx * BALL_SPEED_INC_X -- reverse and slightly increase
+        ball.dx = -ball.dx * BALL_SPEED_HIT_INC_X -- reverse and slightly increase
         ball.x = player1.x + PADDLE_WIDTH
         -- reverse the y direction, but random speed
         if ball.dy < 0 then
@@ -113,7 +113,7 @@ function love.update(dt)
             ball.dy = math.random(BALL_SPEED_HIT_MIN_Y, BALL_SPEED_HIT_MAX_Y)
         end
     elseif ball:collides(player2) then
-        ball.dx = -ball.dx * BALL_SPEED_INC_X -- reverse and slightly increase
+        ball.dx = -ball.dx * BALL_SPEED_HIT_INC_X -- reverse and slightly increase
         ball.x = player2.x - PADDLE_WIDTH
         -- reverse the y direction, but random speed
         if ball.dy < 0 then
