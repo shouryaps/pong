@@ -106,14 +106,16 @@ function love.update(dt)
     -- collision of ball with left and right screen => update scores
     if ball.x < 0 then
         player2Score = player2Score + SCORE_INCREAMENT
-        ball:reset()
         serveSide = P1
         gameState = GAME_STATE_SERVE
+        ball:reset()
+        return -- don't update object states after this
     elseif ball.x > VIRTUAL_WIDTH then
         player1Score = player1Score + SCORE_INCREAMENT
-        ball:reset()
         serveSide = P2
         gameState = GAME_STATE_SERVE
+        ball:reset()
+        return -- don't update object states after this
     end
 
     -- handle collisions with players

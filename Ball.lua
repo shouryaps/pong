@@ -3,7 +3,6 @@ Ball = Class {}
 function Ball:init(x, y, width, height)
     self.x = x
     self.y = y
-    print(self.x, self.y)
     self.width = width
     self.height = height
     self.dx = math.random(2) == 1 and -BALL_SPEED_INIT_MAX_X or BALL_SPEED_INIT_MAX_X
@@ -13,7 +12,6 @@ end
 function Ball:reset()
     self.x = (VIRTUAL_WIDTH / 2) - (BALL_SIZE / 2)
     self.y = (VIRTUAL_HEIGHT / 2) - (BALL_SIZE / 2)
-    print(self.x, self.y)
     self.dx = math.random(2) == 1 and -BALL_SPEED_INIT_MAX_X or BALL_SPEED_INIT_MAX_X
     self.dy = math.random(-BALL_SPEED_INIT_MAX_Y, BALL_SPEED_INIT_MAX_Y)
 end
