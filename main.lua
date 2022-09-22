@@ -7,7 +7,7 @@ require 'Paddle'
 require 'Ball'
 
 local ball, player1, player2
-local gameState, player1Score, player2Score
+local gameState, player1Score, player2Score, serveSide
 local smallFont, bigFont
 
 function love.load()
@@ -55,14 +55,21 @@ function love.keypressed(key)
             gameState = GAME_STATE_PLAY
         elseif gameState == GAME_STATE_PLAY then
             gameState = GAME_STATE_PAUSE
-        else
-            gameState = GAME_STATE_START
-            ball:reset()
+        elseif gameState == GAME_STATE_SERVE then
+            gameState = GAME_STATE_PLAY
         end
     end
 end
 
 function love.update(dt)
+
+    if gameState == GAME_STATE_SERVE then
+        if serveSide == P1 then
+            ball.dx = math.abs(ball.dx) -- move towards right
+        elseif serveSide == P2 then
+            ball.dx = -math.abs(ball.dx) -- move towards left
+        end
+    end
 
     -- allow rest of code only if game state is play
     if gameState ~= GAME_STATE_PLAY then
@@ -100,9 +107,13 @@ function love.update(dt)
     if ball.x < 0 then
         player2Score = player2Score + SCORE_INCREAMENT
         ball:reset()
+        serveSide = P1
+        gameState = GAME_STATE_SERVE
     elseif ball.x > VIRTUAL_WIDTH then
         player1Score = player1Score + SCORE_INCREAMENT
         ball:reset()
+        serveSide = P2
+        gameState = GAME_STATE_SERVE
     end
 
     -- handle collisions with players
@@ -138,10 +149,6 @@ function love.draw()
     -- set black background
     love.graphics.clear(0, 0, 0, 1)
 
-    -- render top heading
-    love.graphics.setFont(smallFont)
-    love.graphics.printf("PONG", 0, 20, VIRTUAL_WIDTH, 'center')
-
     -- render dotted line in middle
     DrawVerticalDottedLine(VIRTUAL_WIDTH / 2, 0, VIRTUAL_HEIGHT, DOTTED_WIDTH, DOTTED_HEIGHT, DOTTED_INTERVAL)
 
@@ -156,7 +163,7 @@ function love.draw()
     ball:render()
 
     -- render message
-    ShowMessage(smallFont, gameState)
+    ShowMessage(smallFont, gameState, serveSide)
 
     push:apply('end')
 end

@@ -45,3 +45,7 @@ BALL_SPEED_HIT_INC_X = 1.03 -- 1.03 indicates 3% increase in reverse x direction
 
 -- scoring
 SCORE_INCREAMENT = 1
+
+-- serve side constants
+P1 = 1
+P2 = 2

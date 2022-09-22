@@ -12,13 +12,17 @@ function ShowMessage(font, state, serveSide)
     love.graphics.setFont(font)
     if state == GAME_STATE_START then
         love.graphics.setColor(0, 1, 0, 1) -- green color
-        love.graphics.printf("Press Enter to start", 0, 20, VIRTUAL_WIDTH - 20, 'right')
+        love.graphics.printf("Enter: Start  P1: W,S  P2: Up,Down", 0, 20, VIRTUAL_WIDTH - 20, 'right')
     elseif state == GAME_STATE_PAUSE then
         love.graphics.setColor(1, 1, 0, 1) -- yellow color
         love.graphics.printf("Paused, Press Enter to resume", 0, 20, VIRTUAL_WIDTH - 20, 'right')
-    elseif state == GAME_STATE_PLAY then
-        love.graphics.setColor(1, 1, 1, 1) -- white color
-        love.graphics.printf("P1: W,S  P2: Up,Down", 0, 20, VIRTUAL_WIDTH - 20, 'right')
+    elseif state == GAME_STATE_SERVE then
+        love.graphics.setColor(0, 1, 0, 1) -- green color
+        local message = "+" .. tostring(SCORE_INCREAMENT) .. " for P2, press Enter to serve from P1"
+        if serveSide == P2 then
+            message = "+" .. tostring(SCORE_INCREAMENT) .. " for P1, press Enter to serve from P2"
+        end
+        love.graphics.printf(message, 0, 20, VIRTUAL_WIDTH - 20, 'right')
     end
 
 end
