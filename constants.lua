@@ -34,10 +34,10 @@ PADDLE_PADDING_X = 10
 PADDLE_PADDING_Y = 30
 
 -- speeds
-PADDLE_SPEED = 200 -- paddle speed with which paddle moves using controls in Y axis
-BALL_SPEED_INIT_MAX_X = 100 -- initial max value of x speed when game starts
-BALL_SPEED_INIT_MAX_Y = 50 -- intial max value of y speed when game starts
-BALL_SPEED_HIT_MIN_Y = 10 -- post collision y speed
+PADDLE_SPEED = 220 -- paddle speed with which paddle moves using controls in Y axis
+BALL_SPEED_INIT_MAX_X = 120 -- initial max value of x speed when game starts
+BALL_SPEED_INIT_MAX_Y = 80 -- intial max value of y speed when game starts
+BALL_SPEED_HIT_MIN_Y = 30 -- post collision y speed
 BALL_SPEED_HIT_MAX_Y = 150 -- post collision y speed
 
 -- increaments
