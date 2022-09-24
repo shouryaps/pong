@@ -7,7 +7,7 @@ require 'Paddle'
 require 'Ball'
 
 local ball, player1, player2
-local gameState, player1Score, player2Score, serveSide
+local gameState, playerSide
 local smallFont, bigFont
 
 function love.load()
@@ -31,11 +31,7 @@ function love.load()
         vsync = true
     })
 
-    -- initialise the scores
-    player1Score = 0
-    player2Score = 0
-
-    -- initialise the player positions, width and height
+    -- initialise the player positions, score, width and height
     player1 = Paddle(PADDLE_PADDING_X, PADDLE_PADDING_Y, PADDLE_WIDTH, PADDLE_HEIGHT)
     player2 = Paddle(VIRTUAL_WIDTH - PADDLE_PADDING_X - PADDLE_WIDTH, VIRTUAL_HEIGHT - PADDLE_PADDING_Y - PADDLE_HEIGHT,
         PADDLE_WIDTH, PADDLE_HEIGHT)
@@ -57,6 +53,10 @@ function love.keypressed(key)
             gameState = GAME_STATE_PAUSE
         elseif gameState == GAME_STATE_SERVE then
             gameState = GAME_STATE_PLAY
+        elseif gameState == GAME_STATE_WINNER then
+            player1:reset()
+            player2:reset()
+            gameState = GAME_STATE_PLAY
         end
     end
 end
@@ -64,9 +64,9 @@ end
 function love.update(dt)
 
     if gameState == GAME_STATE_SERVE then
-        if serveSide == P1 then
+        if playerSide == P1 then
             ball.dx = math.abs(ball.dx) -- move towards right
-        elseif serveSide == P2 then
+        elseif playerSide == P2 then
             ball.dx = -math.abs(ball.dx) -- move towards left
         end
     end
@@ -105,16 +105,25 @@ function love.update(dt)
 
     -- collision of ball with left and right screen => update scores
     if ball.x < 0 then
-        player2Score = player2Score + SCORE_INCREAMENT
-        serveSide = P1
+        player2:incScore()
+        playerSide = P1
         gameState = GAME_STATE_SERVE
         ball:reset()
-        return -- don't update object states after this
     elseif ball.x > VIRTUAL_WIDTH then
-        player1Score = player1Score + SCORE_INCREAMENT
-        serveSide = P2
+        player1:incScore()
+        playerSide = P2
         gameState = GAME_STATE_SERVE
         ball:reset()
+    end
+
+    if gameState == GAME_STATE_SERVE then -- check for winner
+        if player1:won() then
+            gameState = GAME_STATE_WINNER
+            playerSide = P1
+        elseif player2:won() then
+            gameState = GAME_STATE_WINNER
+            playerSide = P2
+        end
         return -- don't update object states after this
     end
 
@@ -154,18 +163,17 @@ function love.draw()
     -- render dotted line in middle
     DrawVerticalDottedLine(VIRTUAL_WIDTH / 2, 0, VIRTUAL_HEIGHT, DOTTED_WIDTH, DOTTED_HEIGHT, DOTTED_INTERVAL)
 
-    -- render score on screen
-    love.graphics.setFont(bigFont)
-    love.graphics.print(tostring(player1Score), VIRTUAL_WIDTH / 2 - 50, VIRTUAL_HEIGHT / 3)
-    love.graphics.print(tostring(player2Score), VIRTUAL_WIDTH / 2 + 35, VIRTUAL_HEIGHT / 3)
-
     -- render components
     player1:render()
     player2:render()
     ball:render()
 
     -- render message
-    ShowMessage(smallFont, gameState, serveSide)
+    ShowMessage(smallFont, gameState, playerSide)
+
+    -- render score on screen
+    love.graphics.setFont(bigFont)
+    RenderScore(player1, player2, gameState, playerSide)
 
     push:apply('end')
 end

@@ -16,6 +16,7 @@ GAME_STATE_START = 0
 GAME_STATE_PLAY = 1
 GAME_STATE_PAUSE = 2
 GAME_STATE_SERVE = 3
+GAME_STATE_WINNER = 4
 
 -- dotted line property
 DOTTED_WIDTH = 1
@@ -46,6 +47,9 @@ BALL_SPEED_HIT_INC_X = 1.03 -- 1.03 indicates 3% increase in reverse x direction
 -- scoring
 SCORE_INCREAMENT = 1
 
--- serve side constants
+-- player constants
 P1 = 1
 P2 = 2
+
+-- winner
+WINNER_SCORE = 10

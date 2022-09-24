@@ -5,6 +5,7 @@ function Paddle:init(x, y, width, height)
     self.y = y
     self.width = width
     self.height = height
+    self.score = 0
     self.dy = 0
 end
 
@@ -18,4 +19,16 @@ end
 
 function Paddle:render()
     love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
+end
+
+function Paddle:incScore()
+    self.score = self.score + SCORE_INCREAMENT
+end
+
+function Paddle:won()
+    return self.score >= WINNER_SCORE
+end
+
+function Paddle:reset()
+    self.score = 0
 end
