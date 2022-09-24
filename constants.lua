@@ -7,7 +7,7 @@ VIRTUAL_WIDTH = 432
 VIRTUAL_HEIGHT = 243
 
 -- font details
-FONT_PATH = 'resources/bit5x3.ttf'
+FONT_PATH = 'resources/fonts/bit5x3.ttf'
 SMALL_FONT_SIZE = 8
 LARGE_FONT_SIZE = 20
 
@@ -53,3 +53,13 @@ P2 = 2
 
 -- winner
 WINNER_SCORE = 10
+
+-- sound constants
+SOUND_WALL_HIT = 0
+SOUND_PADDLE_HIT = 1
+SOUND_SCORE = 2
+
+-- sound resources
+SOUND_WALL_HIT_PATH = "resources/sounds/wall_hit.wav"
+SOUND_PADDLE_HIT_PATH = "resources/sounds/paddle_hit.wav"
+SOUND_SCORE_PATH = "resources/sounds/score.wav"

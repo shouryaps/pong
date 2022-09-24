@@ -8,7 +8,7 @@ require 'Ball'
 
 local ball, player1, player2
 local gameState, playerSide
-local smallFont, bigFont
+local smallFont, bigFont, sounds
 
 function love.load()
     -- set default scaling filter
@@ -20,6 +20,13 @@ function love.load()
     -- intialise font variables
     smallFont = love.graphics.newFont(FONT_PATH, SMALL_FONT_SIZE)
     bigFont = love.graphics.newFont(FONT_PATH, LARGE_FONT_SIZE)
+
+    -- intialise sounds
+    sounds = {
+        [SOUND_PADDLE_HIT] = love.audio.newSource(SOUND_PADDLE_HIT_PATH, 'static'),
+        [SOUND_WALL_HIT] = love.audio.newSource(SOUND_WALL_HIT_PATH, 'static'),
+        [SOUND_SCORE] = love.audio.newSource(SOUND_SCORE_PATH, 'static')
+    }
 
     -- setup heading
     love.window.setTitle("Shourya's Pong")
@@ -98,9 +105,11 @@ function love.update(dt)
     if ball.y <= 0 then
         ball.y = 0
         ball.dy = -ball.dy
+        sounds[SOUND_WALL_HIT]:play()
     elseif ball.y >= VIRTUAL_HEIGHT - BALL_SIZE then
         ball.y = VIRTUAL_HEIGHT - BALL_SIZE
         ball.dy = -ball.dy
+        sounds[SOUND_WALL_HIT]:play()
     end
 
     -- collision of ball with left and right screen => update scores
@@ -109,11 +118,13 @@ function love.update(dt)
         playerSide = P1
         gameState = GAME_STATE_SERVE
         ball:reset()
+        sounds[SOUND_SCORE]:play()
     elseif ball.x > VIRTUAL_WIDTH then
         player1:incScore()
         playerSide = P2
         gameState = GAME_STATE_SERVE
         ball:reset()
+        sounds[SOUND_SCORE]:play()
     end
 
     if gameState == GAME_STATE_SERVE then -- check for winner
@@ -131,6 +142,7 @@ function love.update(dt)
     if ball:collides(player1) then
         ball.dx = -ball.dx * BALL_SPEED_HIT_INC_X -- reverse and slightly increase
         ball.x = player1.x + PADDLE_WIDTH
+        sounds[SOUND_PADDLE_HIT]:play()
         -- reverse the y direction, but random speed
         if ball.dy < 0 then
             ball.dy = -math.random(BALL_SPEED_HIT_MIN_Y, BALL_SPEED_HIT_MAX_Y)
@@ -140,6 +152,7 @@ function love.update(dt)
     elseif ball:collides(player2) then
         ball.dx = -ball.dx * BALL_SPEED_HIT_INC_X -- reverse and slightly increase
         ball.x = player2.x - PADDLE_WIDTH
+        sounds[SOUND_PADDLE_HIT]:play()
         -- reverse the y direction, but random speed
         if ball.dy < 0 then
             ball.dy = -math.random(BALL_SPEED_HIT_MIN_Y, BALL_SPEED_HIT_MAX_Y)
