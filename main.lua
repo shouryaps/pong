@@ -34,7 +34,7 @@ function love.load()
     -- setup the screen
     push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
         fullscreen = false,
-        resizable = false,
+        resizable = true,
         vsync = true
     })
 
@@ -66,6 +66,10 @@ function love.keypressed(key)
             gameState = GAME_STATE_PLAY
         end
     end
+end
+
+function love.resize(w, h)
+    push:resize(w, h)
 end
 
 function love.update(dt)
