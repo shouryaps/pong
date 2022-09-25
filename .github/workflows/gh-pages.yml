@@ -16,11 +16,7 @@ jobs:
           node-version: 18
           cache: 'npm'
       - name: Install and Build
-        run: |
-          npm ci
-          mkdir -p public
-          zip -9 -r pong.love .
-          npx love.js -t "Shourya's Pong" -c pong.love public
+        run: make build
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         if: github.ref == 'refs/heads/main'
