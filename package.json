@@ -1,0 +1,22 @@
+{
+  "name": "pong",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shouryaps/pong.git"
+  },
+  "author": "Shourya Pratap Singh",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shouryaps/pong/issues"
+  },
+  "homepage": "https://github.com/shouryaps/pong#readme",
+  "dependencies": {
+    "love.js": "^11.4.1"
+  }
+}
