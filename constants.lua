@@ -42,7 +42,7 @@ BALL_SPEED_HIT_MIN_Y = 30 -- post collision y speed
 BALL_SPEED_HIT_MAX_Y = 150 -- post collision y speed
 
 -- increaments
-BALL_SPEED_HIT_INC_X = 1.03 -- 1.03 indicates 3% increase in reverse x direction speed, if ball hits paddle
+BALL_SPEED_HIT_INC_X = 1.04 -- 1.04 indicates 4% increase in reverse x direction speed, if ball hits paddle
 
 -- scoring
 SCORE_INCREAMENT = 1
